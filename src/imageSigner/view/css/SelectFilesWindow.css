@@ -1,0 +1,47 @@
+.sfWindow {
+    -fx-pref-width: 600px;
+    -fx-pref-height: 400px;
+}
+
+.sfAnchorPaneTop {
+    -fx-pref-width: 600px;
+    -fx-pref-height: 50px;
+    -fx-alignment: center;
+}
+
+.sfAnchorPaneTable {
+    -fx-pref-width: 600px;
+    -fx-pref-height: 320px;
+    -fx-alignment: center;
+}
+
+.sfAnchorPaneBottom {
+    -fx-pref-width: 600px;
+    -fx-pref-height: 30px;
+    -fx-alignment: center;
+}
+
+.sfTableView {
+    -fx-pref-width: 600px;
+    -fx-pref-height: 320px;
+}
+
+.sfTableColumns {
+    -fx-pref-width: 300px;
+}
+
+.sfButtons {
+    -fx-pref-width: 90px;
+    -fx-pref-height: 25px;
+    -fx-font-family: Arial;
+    -fx-font-size: 12;
+}
+
+.sfButtonsArrows {
+    -fx-pref-width: 40px;
+}
+
+.sfLabelQty {
+    -fx-pref-width: 75px;
+    -fx-pref-height: 17px;
+}

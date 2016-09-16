@@ -1,0 +1,143 @@
+
+/** Zones **/
+.borderPaneMain {
+    -fx-pref-width: 1120px;
+    -fx-pref-height: 800px;
+    -fx-min-width: 920px;
+    -fx-min-height: 667px;
+}
+
+.header {
+    -fx-pref-width: 1120px;
+    -fx-pref-height: 40px;
+    -fx-min-width: 920px;
+    -fx-min-height: 40px;
+    -fx-alignment: center;
+}
+
+.footer {
+    -fx-pref-width: 1120px;
+    -fx-pref-height: 27px;
+    -fx-min-width: 920px;
+    -fx-min-height: 27px;
+    -fx-alignment: center;
+}
+
+.sideBorder {
+    -fx-pref-width: 10px;
+    -fx-pref-height: 733px;
+    -fx-min-width: 10px;
+    -fx-min-height: 600px;
+    -fx-alignment: center;
+}
+
+.scrollPanePreview {
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: never;
+    -fx-fit-to-width: true;
+    -fx-fit-to-height: true;
+    -fx-pannable: true;
+    -fx-alignment: center;
+
+}
+
+/** ImageContainer **/
+.imageContainer {  -fx-background-color: #404040; }
+
+
+/** Buttons **/
+
+/* shared class */
+.buttonsTop {
+    -fx-pref-height: 25px;
+    -fx-text-alignment: center;
+    -fx-font-family: Verdana;
+    -fx-font-weight: normal;
+    -fx-font-size: 10px;
+}
+
+.buttonSelectFiles {  -fx-pref-width: 100px;  }
+
+.buttonPrev, .buttonNext {
+    -fx-pref-width: 25px;
+    -fx-background-position: center;
+}
+
+.buttonPrev {  -fx-background-image: url("../images/arrow-left-b.png");  }
+.buttonNext {  -fx-background-image: url("../images/arrow-right-b.png"); }
+
+.buttonShowSignPanel {  -fx-pref-width: 130px;  }
+
+.buttonsZoom {
+    -fx-pref-width: 40px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+.buttonZoomIn {  -fx-background-image: url("../images/zoom-in-icon.png");  }
+.buttonZoomOut {  -fx-background-image: url("../images/zoom-out-icon.png");  }
+.buttonZoomFit {  -fx-background-image: url("../images/zoom-fit-icon.png");  }
+
+.buttonsSave {  -fx-pref-width: 65px;  }
+
+.buttonResetChanges {  -fx-pref-width: 110px;  }
+
+
+/** Labels **/
+.labelSelectedQtyValue {
+    -fx-font-family: Verdana;
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
+    -fx-pref-width: 40px;
+    -fx-pref-height: 15px;
+}
+
+.labelsFooter {
+    -fx-pref-height: 22px;
+    -fx-font-family: Verdana;
+    -fx-font-size: 11;
+    -fx-font-weight: normal;
+}
+
+.labelFooterCounter {
+    -fx-pref-width: 45px;
+    -fx-text-alignment: left;
+
+}
+
+.progress-bar {
+    -fx-pref-width: 110px;
+}
+
+.labelFooterFileName {
+    -fx-pref-width: 190px;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.labelFooterFileSize {
+    -fx-pref-width: 65px;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.labelFooterFileResolution {
+    -fx-pref-width: 120px;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.labelFooterFilePath {
+    -fx-pref-width: 500px;
+    -fx-text-alignment: left;
+
+}
+
+
+/** Separators **/
+.separatorsFooter {
+    -fx-pref-height: 26;
+    -fx-pref-width: 2;
+    -fx-orientation: vertical;
+}
+

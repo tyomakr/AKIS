@@ -1,0 +1,52 @@
+.signPanel {
+    -fx-pref-width: 550px;
+    -fx-pref-height: 280px;
+}
+
+.textAreaSign {
+    -fx-pref-width: 520px;
+    -fx-pref-height: 55px;
+    -fx-wrap-text: true;
+}
+
+.comboBoxFontName {
+    -fx-pref-width: 190px;
+    -fx-pref-height: 25px;
+}
+
+.spinnerFontSize {
+    -fx-pref-width: 60px;
+}
+
+.spinnerSignLineHeight {
+    -fx-pref-width: 60px;
+}
+
+.cpTextColor {
+    -fx-pref-width: 90px;
+}
+
+.cpSignBackgroundColor {
+    -fx-pref-width: 100px;
+}
+
+.buttonsTextFormat {
+    -fx-pref-width: 25px;
+    -fx-text-alignment: center;
+    -fx-font-size: 12px;
+}
+
+.buttonPreview {
+    -fx-pref-width: 60px;
+}
+
+
+.bBold {
+    -fx-font-weight: bold;
+}
+.bItalic {
+    -fx-font-style: italic;
+}
+.bUnderline {
+    -fx-underline: true;
+}
