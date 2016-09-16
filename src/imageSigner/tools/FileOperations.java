@@ -9,6 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import static imageSigner.MainApp.RESOURCE_PATH;
 
 public class FileOperations {
 
@@ -25,13 +29,15 @@ public class FileOperations {
 
     public static void backupOriginal(int currentFileIndex) {
 
+        ResourceBundle res = ResourceBundle.getBundle(RESOURCE_PATH + "common", Locale.ENGLISH);
+
         ObservableList<FileItem> fileItemsList = FileItemsStorage.getInstance().getFileItemsList();
 
         /** ДЕЛАЕМ РЕЗЕРВНУЮ КОПИЮ ИСХОДНОГО ФАЙЛа **/
         //берем оригинал файла
         File source = fileItemsList.get(currentFileIndex).getCurrentFile();
         //Создаем папку для оригиналов
-        String originalFolder = fileItemsList.get(currentFileIndex).getCurrentFile().getParent() + "\\[AKIS_Originals]";
+        String originalFolder = fileItemsList.get(currentFileIndex).getCurrentFile().getParent() + "\\" + res.getString("backupFolderName");
         FileOperations.makeDir(originalFolder);
         //Указываем полный путь назначения
         File destination = new File(originalFolder + "\\[ORIGINAL]_" + fileItemsList.get(currentFileIndex).getFilename());
@@ -40,7 +46,6 @@ public class FileOperations {
             FileOperations.copyFile(source, destination);
         } catch (FileAlreadyExistsException e) {
             /** ЕСЛИ ФАЙЛ КОПИРОВАЛСЯ И НАХОДИТСЯ В ПАПКЕ ОРИГИНАЛОВ, ТО ПРОПУСКАЕМ **/
-            //todo файл существует
         } catch (IOException e) {
             e.printStackTrace();
         }

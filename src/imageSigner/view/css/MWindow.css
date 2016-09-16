@@ -105,8 +105,9 @@
 
 }
 
-.progress-bar {
+.labelProcessStatus {
     -fx-pref-width: 110px;
+    -fx-alignment: center;
 }
 
 .labelFooterFileName {

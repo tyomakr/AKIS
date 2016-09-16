@@ -19,6 +19,10 @@ import marvin.image.MarvinImageMask;
 import org.marvinproject.image.blur.gaussianBlur.GaussianBlur;
 
 import java.awt.image.BufferedImage;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import static imageSigner.MainApp.RESOURCE_PATH;
 
 
 public class ImageContainer extends StackPane {
@@ -33,6 +37,7 @@ public class ImageContainer extends StackPane {
 
     private Text signText;
 
+    private ResourceBundle res = ResourceBundle.getBundle(RESOURCE_PATH + "common", Locale.ENGLISH);
 
     //constructor
     public ImageContainer (String pathUrl) {
@@ -87,68 +92,27 @@ public class ImageContainer extends StackPane {
         initCanvas();
         prepareSignLine(signLineSize);
         processingSignData(signLineSize);
+        mainApp.getMvController().labelProcessStatus.setText(res.getString("complete"));
 
     }
 
     // наложение подписи на замутненном фоне
     public void setBlurLineSignature() {
 
-        mainApp.getMvController().progressBar.setProgress(-1);
-
-
         double signLineSize = mainApp.getSpController().spinnerSignLineHeight.getValue();               //получаем значение высоты линии подписи
-
-        initCanvas();
 
         canvas.setWidth(image.getWidth());
         canvas.setHeight(image.getHeight() + signLineSize);
-
         WritableImage writableImage = new WritableImage((int)canvas.getWidth(), (int)canvas.getHeight());
 
-        PixelReader pixelReader = image.getPixelReader();
-        PixelWriter pixelWriter = writableImage.getPixelWriter();
+        drawMirroringSignatureLine(writableImage, image, signLineSize);     //зеркалим фон подписи
+        image = applyGaussianBlurSignLine(writableImage, signLineSize);     //применяем блюр
+        imageView.setImage(image);
 
-        //считывание всего фото и запись в WritableImage
-        for (int readH = 0; readH < image.getHeight(); readH++) {
-            for (int readW = 0; readW < image.getWidth(); readW++) {
-                Color color = pixelReader.getColor(readW, readH);
-                pixelWriter.setColor(readW, readH, color);
-            }
-        }
+        initCanvas();
+        processingSignData(signLineSize);
 
-        //позиция записи пикселей (для заполнения снизу вверх)
-        int writeVPos = (int) writableImage.getHeight();
-        //скан только нижней части фото, равной высоте линии подписи, но до нее и запись содержимого на линию подписи
-        for (int readH = (int)(image.getHeight() - signLineSize + 1); readH < image.getHeight(); readH++) {
-            for (int readW = 0; readW < image.getWidth(); readW++) {
-                Color color = pixelReader.getColor(readW, readH);       //считываем цвет пикселя с исходного изображения (сверху вниз)
-                pixelWriter.setColor(readW, writeVPos - 1, color);      //записываем цвет пикселя в writableImage (снизу вверх)
-            }
-            writeVPos--;
-        }
-
-        //конвертация в buffImage
-        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
-
-        //загружаем изображение в марвин
-        MarvinImage mImage = new MarvinImage(bufferedImage);
-
-        //создаем маску для участка блюра
-        MarvinImageMask mask = new MarvinImageMask(
-                mImage.getWidth(), mImage.getHeight(), 0, mImage.getHeight() - (int)signLineSize, mImage.getWidth(), (int)signLineSize);
-
-        //применяем блюр
-        GaussianBlur gaussianBlur = new GaussianBlur();
-        gaussianBlur.load();
-        gaussianBlur.setAttributes("radius", 15);
-        gaussianBlur.process(mImage.clone(), mImage, mask);
-        mImage.update();
-
-        //конвертация в ImageFX
-        Image resImage = SwingFXUtils.toFXImage(mImage.getBufferedImage(), writableImage);
-        imageView.setImage(resImage);
-
-        mainApp.getMvController().progressBar.setProgress(100);
+        mainApp.getMvController().labelProcessStatus.setText(res.getString("complete"));
 
     }
 
@@ -160,6 +124,7 @@ public class ImageContainer extends StackPane {
 
         initCanvas();
         processingSignData(interval);
+        mainApp.getMvController().labelProcessStatus.setText(res.getString("complete"));
 
     }
 
@@ -240,6 +205,56 @@ public class ImageContainer extends StackPane {
         graphicsContext.setStroke(mainApp.getSpController().colorPickerTextColor.getValue());       //цвет линии
         graphicsContext.setLineWidth(mainApp.getSpController().spinnerFontSize.getValue() / 12.5);  //толщина линии
         graphicsContext.strokeLine(startHPos, lineVPos, startHPos + getTextWidthPixels(), lineVPos);//координаты линии
+    }
+
+    //рисует зеркальное отображение нижней части картинки на строке подписи
+    private void drawMirroringSignatureLine(WritableImage writableImage, Image image, double signLineSize) {
+
+        PixelReader pixelReader = image.getPixelReader();
+        PixelWriter pixelWriter = writableImage.getPixelWriter();
+
+        //считывание всего фото и запись в WritableImage
+        for (int readH = 0; readH < image.getHeight(); readH++) {
+            for (int readW = 0; readW < image.getWidth(); readW++) {
+                Color color = pixelReader.getColor(readW, readH);
+                pixelWriter.setColor(readW, readH, color);
+            }
+        }
+
+        //позиция записи пикселей (для заполнения снизу вверх)
+        int writeVPos = (int) writableImage.getHeight();
+        //скан только нижней части фото, равной высоте линии подписи, но до нее и запись содержимого на линию подписи
+        for (int readH = (int)(image.getHeight() - signLineSize + 1); readH < image.getHeight(); readH++) {
+            for (int readW = 0; readW < image.getWidth(); readW++) {
+                Color color = pixelReader.getColor(readW, readH);       //считываем цвет пикселя с исходного изображения (сверху вниз)
+                pixelWriter.setColor(readW, writeVPos - 1, color);      //записываем цвет пикселя в writableImage (снизу вверх)
+            }
+            writeVPos--;
+        }
+    }
+
+    //применение блюра к строке подписи
+    private Image applyGaussianBlurSignLine(WritableImage writableImage, double signLineSize) {
+
+        //конвертация в buffImage
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
+
+        //загружаем изображение в марвин
+        MarvinImage mImage = new MarvinImage(bufferedImage);
+
+        //создаем маску для участка блюра
+        MarvinImageMask mask = new MarvinImageMask(
+                mImage.getWidth(), mImage.getHeight(), 0, mImage.getHeight() - (int)signLineSize, mImage.getWidth(), (int)signLineSize);
+
+        //применяем блюр
+        GaussianBlur gaussianBlur = new GaussianBlur();
+        gaussianBlur.load();
+        gaussianBlur.setAttributes("radius", 15);
+        gaussianBlur.process(mImage.clone(), mImage, mask);
+        mImage.update();
+
+        //конвертация в ImageFX
+        return SwingFXUtils.toFXImage(mImage.getBufferedImage(), writableImage);
     }
 
     //получение ширины текста в пикселях

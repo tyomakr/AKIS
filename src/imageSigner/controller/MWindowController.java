@@ -10,7 +10,6 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -26,8 +25,14 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import static imageSigner.MainApp.RESOURCE_PATH;
 
 public class MWindowController {
+
+    private ResourceBundle res = ResourceBundle.getBundle(RESOURCE_PATH + "common", Locale.ENGLISH);
 
     //объявляем поля и элементы из FXML
     @FXML public BorderPane borderPaneMain;
@@ -46,12 +51,12 @@ public class MWindowController {
 
     @FXML public Label labelSelectedQtyValue;
     @FXML public Label labelFooterCounter;
+    @FXML public Label labelProcessStatus;
     @FXML public Label labelFooterFileName;
     @FXML public Label labelFooterFileSize;
     @FXML public Label labelFooterFileResolution;
     @FXML public Label labelFooterFilePath;     //к этому полю привязана логика переключения next/prev и отслеживание изменения этого поля
 
-    @FXML public ProgressBar progressBar;
 
 
     //даем контроллеру доступ к экземпляру mainApp
@@ -78,7 +83,7 @@ public class MWindowController {
 
         refreshCounter();
         paintEmptyBackground();
-        progressBar.setProgress(0);
+        setStatusReady();
 
         buttonShowSignPanel.setDisable(true);
     }
@@ -110,7 +115,7 @@ public class MWindowController {
         labelFooterCounter.setText((currentFileIndex + 1) + "/" + fileItemsList.size());
         labelFooterFileName.setText(fi.getFilename());
         double fileSize = new BigDecimal((double)fi.getCurrentFile().length() / 1024 / 1024).setScale(2, RoundingMode.UP).doubleValue();
-        labelFooterFileSize.setText(fileSize + "Mb");
+        labelFooterFileSize.setText(fileSize + res.getString("mb"));
         labelFooterFileResolution.setText(ic.getImage().getWidth() + "x" + ic.getImage().getHeight());
         labelFooterFilePath.setText(fi.getFilePath());
     }
@@ -146,7 +151,7 @@ public class MWindowController {
         if (currentFileIndex > 0) {
             currentFileIndex --;
             labelFooterFilePath.setText(fileItemsList.get(currentFileIndex).getFilePath());
-            progressBar.setProgress(0);
+            setStatusReady();
         }
     }
 
@@ -154,7 +159,7 @@ public class MWindowController {
         if (currentFileIndex < fileItemsList.size() - 1) {
             currentFileIndex++;
             labelFooterFilePath.setText(fileItemsList.get(currentFileIndex).getFilePath());
-            progressBar.setProgress(0);
+            setStatusReady();
         }
     }
 
@@ -205,13 +210,18 @@ public class MWindowController {
                 e.printStackTrace();
             }
 
-            labelFooterFileName.setText("IMAGE SAVED");
+            labelProcessStatus.setText(res.getString("imgSave"));
     }
 
     //отрисовка пустого фона при старте программы
     private void paintEmptyBackground() {
         ic = new ImageContainer("/imageSigner/view/images/emptyBg.jpg");
         scrollPanePreview.setContent(ic);
+    }
+
+    //статус готов
+    private void setStatusReady() {
+        labelProcessStatus.setText(res.getString("ready"));
     }
 
     /** SETTERS AND GETTERS */

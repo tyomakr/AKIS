@@ -112,7 +112,7 @@ public class SignPanelController {
 
     /** buttons **/
     public void handleButtonPreview() {
-
+        mainApp.getMvController().labelProcessStatus.setText("WORKING");
         //если подпись на однотонном фоне
         if (radioButtonSSL.isSelected()) {
             mainApp.getMvController().getIc().setSolidLineSignature();

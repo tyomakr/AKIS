@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MainApp extends Application {
 
@@ -26,10 +28,16 @@ public class MainApp extends Application {
     private Stage sfStage = new Stage(StageStyle.TRANSPARENT);
     private Stage spStage = new Stage(StageStyle.TRANSPARENT);
 
+    public static final String RESOURCE_PATH = "imageSigner.resources.";
+    private ResourceBundle res = ResourceBundle.getBundle(RESOURCE_PATH + "mainApp_en", Locale.ENGLISH);
+
     @Override
     public void start(Stage primaryStage) {
+
+        Locale.setDefault(Locale.ENGLISH);
+
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("AK Image Signer");
+        this.primaryStage.setTitle(res.getString("window.title"));
 
         //Передача экземпляра mainApp для диалогов выбора файла
         FileItemsStorage.getInstance().setMainApp(this);
@@ -73,14 +81,13 @@ public class MainApp extends Application {
                 loader.setLocation(MainApp.class.getResource("view/SelectFilesWindowView.fxml"));
                 BorderPane filesWindow = loader.load();
 
-                sfStage.setTitle("Список файлов");
+                sfStage.setTitle(res.getString("window.fl.title"));
                 sfStage.setResizable(false);
 
                 Scene scene = new Scene(filesWindow);
                 sfStage.setScene(scene);
 
                 fwController = loader.getController();
-                fwController.setMainApp(this);
 
                 //скрытие по щелчку, вне области этого окна
                 primaryStage.getScene().setOnMouseClicked((MouseEvent me) -> sfStage.hide());

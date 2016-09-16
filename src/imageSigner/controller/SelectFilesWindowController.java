@@ -1,11 +1,7 @@
 package imageSigner.controller;
 
-
-import imageSigner.MainApp;
 import imageSigner.containers.FileItem;
 import imageSigner.storage.FileItemsStorage;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,13 +10,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 
-import java.util.EventListener;
-
 
 public class SelectFilesWindowController {
-
-    //даем контроллеру доступ к экземпляру mainApp
-    private MainApp mainApp;
 
     //создаем лист для обработки файлов
     private ObservableList<FileItem> fileItemsList = FileItemsStorage.getInstance().getFileItemsList();
@@ -51,11 +42,7 @@ public class SelectFilesWindowController {
     //initialize
     public void initialize() {
         fillTable();
-
-
     }
-
-
 
     //обновление счетчика файлов
     private void refreshQtyCounter() {
@@ -140,7 +127,6 @@ public class SelectFilesWindowController {
             fileItemsList.set(row + 1, fileItem1);
             fileItemsList.set(row, fileItem2);
         }
-
     }
 
     //очистка списка файлов
@@ -148,13 +134,5 @@ public class SelectFilesWindowController {
         fileItemsList.clear();
         fillTable();
     }
-
-
-    /**setters and getters */
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-
-
 
 }

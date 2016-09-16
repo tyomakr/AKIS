@@ -13,12 +13,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
+import static imageSigner.MainApp.RESOURCE_PATH;
 
 
 public class FileItemsStorage {
 
     private static FileItemsStorage ourInstance = new FileItemsStorage();
+
+    private ResourceBundle res = ResourceBundle.getBundle(RESOURCE_PATH + "common", Locale.ENGLISH);
 
     private FileItemsStorage() {
     }
@@ -54,7 +60,6 @@ public class FileItemsStorage {
                     Files.walk(Paths.get(dir.getAbsolutePath()), 1)
                             .distinct().forEach(filePath -> additionFiles(filePath.toFile()));
                 } catch (IOException | RuntimeException e) {
-                    //TODO Позже допишу логгер в консоль
                     //LOGGER.error("ОШИБКА чтения :" + e.getMessage() + "\nФайл НЕ будет добавлен и обработан");
                 }
             }
@@ -65,7 +70,7 @@ public class FileItemsStorage {
             FileChooser fileChooser = new FileChooser();
 
             /** условие добавления только изображений */
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg");
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(res.getString("imgFiles"), "*.jpg", "*.jpeg");
             fileChooser.getExtensionFilters().add(extFilter);
             List<File> files = fileChooser.showOpenMultipleDialog(mainApp.getPrimaryStage());
 
@@ -105,12 +110,11 @@ public class FileItemsStorage {
 
         try {
             Files.walk(Paths.get(dir.getAbsolutePath())).forEach(filePath -> {
-                if (!Files.isDirectory(filePath) && !filePath.toString().contains("[AKIS_Originals]")) {
+                if (!Files.isDirectory(filePath) && !filePath.toString().contains(res.getString("backupFolderName"))) {
                     additionFiles(filePath.toFile());
                 }
             });
         } catch (RuntimeException | IOException e) {
-            //TODO Позже допишу логгер в консоль
             //LOGGER.error("ОШИБКА ЧТЕНИЯ ФАЙЛА/ПАПКИ - " + e.getMessage().substring(36));
         }
     }
@@ -118,8 +122,8 @@ public class FileItemsStorage {
     /** Сохранение файла как.. */
     public File saveFileAs(){
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save photo as..");
-        FileChooser.ExtensionFilter extFilter =  new FileChooser.ExtensionFilter("Images (*.jpg)", "*.jpg");
+        fileChooser.setTitle(res.getString("savePhotoAs"));
+        FileChooser.ExtensionFilter extFilter =  new FileChooser.ExtensionFilter(res.getString("img.ext"), "*.jpg");
         fileChooser.getExtensionFilters().add(extFilter);
 
         return fileChooser.showSaveDialog(mainApp.getPrimaryStage().getScene().getWindow());
