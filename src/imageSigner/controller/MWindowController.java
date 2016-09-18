@@ -4,6 +4,8 @@ import imageSigner.MainApp;
 import imageSigner.containers.FileItem;
 import imageSigner.containers.ImageContainer;
 import imageSigner.storage.FileItemsStorage;
+import imageSigner.tools.FileOperations;
+import imageSigner.tools.SceneGestures;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -12,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 
 import javax.imageio.IIOImage;
@@ -125,8 +129,14 @@ public class MWindowController {
         if (fileItemsList.size() != 0) {
             ic = new ImageContainer(getCurrentImagePath());
             scrollPanePreview.setContent(ic);
-            showFooterPhotoData();
 
+            //функционал масштабирования
+            SceneGestures sceneGestures = new SceneGestures(ic);
+            mainApp.getPrimaryStage().getScene().addEventFilter( MouseEvent.MOUSE_PRESSED, sceneGestures.getOnMousePressedEventHandler());
+            mainApp.getPrimaryStage().getScene().addEventFilter( MouseEvent.MOUSE_DRAGGED, sceneGestures.getOnMouseDraggedEventHandler());
+            mainApp.getPrimaryStage().getScene().addEventFilter( ScrollEvent.ANY, sceneGestures.getOnScrollEventHandler());
+
+            showFooterPhotoData();
             enableEditing();
         }
     }
@@ -154,7 +164,6 @@ public class MWindowController {
             setStatusReady();
         }
     }
-
     public void handleButtonNextFile() {
         if (currentFileIndex < fileItemsList.size() - 1) {
             currentFileIndex++;
@@ -167,50 +176,70 @@ public class MWindowController {
         mainApp.showSignPanel();
     }
 
-    public void handleButtonZoomIn() {}
+    public void handleButtonZoomUp() {
+        if (ic.getScale() < 10d) {
+            ic.setScale(ic.getScale() + 1);
+        }
+    }
+    public void handleButtonZoomDown() {
+        if (ic.getScale() > 1d) {
+            ic.setScale(ic.getScale() - 1);
+        }
+    }
+    public void handleButtonZoomFit() {
+        ic.setScale(1d);
+        ic.setTranslateX(0);
+        ic.setTranslateY(0);
+
+    }
+
+    public void handleResetChanges() {
+        showPhotoPreview();
+    }
 
     public void handleButtonSave() {
         saveChangesInFile(fileItemsList.get(currentFileIndex).getFilePath());
     }
-
     public void handleButtonSaveAs() {
         File file = FileItemsStorage.getInstance().saveFileAs();
         if (file != null) {
             saveChangesInFile(file.getAbsolutePath());
         }
     }
-
     //сохранить изменения в файл
     private void saveChangesInFile(String filePath) {
 
-            //получаем текущее изображение
-            Image savingImage = mainApp.getMvController().getIc().getImageView().getImage();
-            BufferedImage image = SwingFXUtils.fromFXImage(savingImage, null);
+        //создаем резервную копию исходного изображения
+        FileOperations.backupOriginal(currentFileIndex);
 
-            //конвертация
-            BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
-            for (int x = 0; x < image.getWidth(); x++) {
-                for (int y = 0; y < image.getHeight(); y++) {
-                    newImage.setRGB(x, y, image.getRGB(x, y));
-                }
+        //получаем текущее изображение
+        Image savingImage = mainApp.getMvController().getIc().getImageView().getImage();
+        BufferedImage image = SwingFXUtils.fromFXImage(savingImage, null);
+
+        //конвертация
+        BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                newImage.setRGB(x, y, image.getRGB(x, y));
             }
+        }
 
-            //установка качества
-            JPEGImageWriteParam jpegParams = new JPEGImageWriteParam(null);
-            jpegParams.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-            jpegParams.setCompressionQuality(1f);
+        //установка качества
+        JPEGImageWriteParam jpegParams = new JPEGImageWriteParam(null);
+        jpegParams.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+        jpegParams.setCompressionQuality(1f);
 
-            //сохранение
-            try {
-                final ImageWriter iWriter = ImageIO.getImageWritersByFormatName("jpg").next();
-                iWriter.setOutput(new FileImageOutputStream(new File(filePath)));
-                iWriter.write(null, new IIOImage(newImage, null, null), jpegParams);
-                iWriter.dispose();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        //сохранение
+        try {
+            final ImageWriter iWriter = ImageIO.getImageWritersByFormatName("jpg").next();
+            iWriter.setOutput(new FileImageOutputStream(new File(filePath)));
+            iWriter.write(null, new IIOImage(newImage, null, null), jpegParams);
+            iWriter.dispose();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            labelProcessStatus.setText(res.getString("imgSave"));
+        labelProcessStatus.setText(res.getString("imgSave"));
     }
 
     //отрисовка пустого фона при старте программы
@@ -228,12 +257,9 @@ public class MWindowController {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
-
-
     private String getCurrentImagePath(){
         return new File(fileItemsList.get(currentFileIndex).getFilePath()).toURI().toString();
     }
-
     ImageContainer getIc() {
         return ic;
     }

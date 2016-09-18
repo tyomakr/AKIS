@@ -30,13 +30,31 @@
     -fx-pref-width: 100px;
 }
 
-.buttonsTextFormat {
+.btnTextFormat {
     -fx-pref-width: 25px;
     -fx-text-alignment: center;
     -fx-font-size: 12px;
 }
 
-.buttonPreview {
+.btnTAlignLeft, .btnTAlignCenter, .btnTAlignRight {
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+.btnTAlignLeft {
+    -fx-background-image: url("../images/text-align-left.png");
+}
+
+.btnTAlignCenter {
+    -fx-background-image: url("../images/text-align-center.png");
+}
+
+.btnTAlignRight {
+    -fx-background-image: url("../images/text-align-right.png");
+}
+
+
+.btnPreview {
     -fx-pref-width: 60px;
 }
 

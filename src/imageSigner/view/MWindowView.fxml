@@ -9,20 +9,20 @@
 
 <BorderPane fx:id="borderPaneMain" styleClass="borderPaneMain" stylesheets="@css/MWindow.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imageSigner.controller.MWindowController">
    <top>
-      <AnchorPane styleClass="header">
-          <Button fx:id="buttonSelectFiles" layoutX="11.0" layoutY="8.0" onAction="#handleButtonSelectFiles" styleClass="buttonSelectFiles, buttonsTop" text="1.Select files" />
-          <Label layoutX="118.0" layoutY="9.0" styleClass="buttonsTop" text="Selected: " />
-          <Label fx:id="labelSelectedQtyValue" layoutX="170.0" layoutY="14.0" styleClass="labelSelectedQtyValue" />
-          <Button fx:id="buttonShowSignPanel" layoutX="427.0" layoutY="8.0" onAction="#handleButtonShowSignPanel" styleClass="buttonShowSignPanel, buttonsTop" text="2.Show sign panel" />
-          <Button fx:id="buttonZoomUp" layoutX="602.0" layoutY="8.0" onAction="#handleButtonZoomIn" styleClass="buttonsZoom, buttonZoomIn, buttonsTop" />
-          <Button fx:id="buttonZoomDown" layoutX="643.0" layoutY="8.0" styleClass="buttonsZoom, buttonZoomOut, buttonsTop" />
-          <Button fx:id="buttonZoomFit" layoutX="684.0" layoutY="8.0" styleClass="buttonsZoom, buttonZoomFit, buttonsTop" />
-          <Button fx:id="buttonSave" layoutX="929.0" layoutY="8.0" onAction="#handleButtonSave" styleClass="buttonsSave, buttonsTop" text="3.Save" />
-          <Button fx:id="buttonSaveAs" layoutX="997.0" layoutY="8.0" onAction="#handleButtonSaveAs" styleClass="buttonsSave, buttonsTop" text="Save as..." />
-          <Button fx:id="buttonResetChanges" layoutX="769.0" layoutY="8.0" styleClass="buttonResetChanges, buttonsTop" text="Reset Changes" />
-         <Button fx:id="buttonPrevFile" layoutX="208.0" layoutY="8.0" onAction="#handleButtonPrevFile" styleClass="buttonsTop, buttonPrev" />
-         <Button fx:id="buttonNextFile" layoutX="239.0" layoutY="8.0" onAction="#handleButtonNextFile" styleClass="buttonsTop, buttonNext" />
-      </AnchorPane>
+       <AnchorPane styleClass="header">
+           <Button fx:id="buttonSelectFiles" layoutX="11.0" layoutY="8.0" onAction="#handleButtonSelectFiles" styleClass="buttonSelectFiles, buttonsTop" text="%button.sel.files"/>
+           <Label layoutX="118.0" layoutY="9.0" styleClass="buttonsTop" text="%label.sel"/>
+           <Label fx:id="labelSelectedQtyValue" layoutX="170.0" layoutY="14.0" styleClass="labelSelectedQtyValue"/>
+           <Button fx:id="buttonShowSignPanel" layoutX="427.0" layoutY="8.0" onAction="#handleButtonShowSignPanel" styleClass="buttonShowSignPanel, buttonsTop" text="%button.show.sp"/>
+           <Button fx:id="buttonZoomUp" layoutX="602.0" layoutY="8.0" onAction="#handleButtonZoomUp" styleClass="buttonsZoom, buttonZoomIn, buttonsTop"/>
+           <Button fx:id="buttonZoomDown" layoutX="643.0" layoutY="8.0" onAction="#handleButtonZoomDown" styleClass="buttonsZoom, buttonZoomOut, buttonsTop"/>
+           <Button fx:id="buttonZoomFit" layoutX="684.0" layoutY="8.0" onAction="#handleButtonZoomFit" styleClass="buttonsZoom, buttonZoomFit, buttonsTop"/>
+           <Button fx:id="buttonSave" layoutX="929.0" layoutY="8.0" onAction="#handleButtonSave" styleClass="buttonsSave, buttonsTop" text="%button.save"/>
+           <Button fx:id="buttonSaveAs" layoutX="997.0" layoutY="8.0" onAction="#handleButtonSaveAs" styleClass="buttonsSave, buttonsTop" text="%button.saveAs"/>
+           <Button fx:id="buttonResetChanges" layoutX="769.0" layoutY="8.0" onAction="#handleResetChanges" styleClass="buttonResetChanges, buttonsTop" text="%button.res.changes"/>
+           <Button fx:id="buttonPrevFile" layoutX="208.0" layoutY="8.0" onAction="#handleButtonPrevFile" styleClass="buttonsTop, buttonPrev"/>
+           <Button fx:id="buttonNextFile" layoutX="239.0" layoutY="8.0" onAction="#handleButtonNextFile" styleClass="buttonsTop, buttonNext"/>
+       </AnchorPane>
    </top>
    <bottom>
       <AnchorPane styleClass="footer">

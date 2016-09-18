@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane fx:id="signPanel" styleClass="signPanel" stylesheets="@css/SignPanel.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imageSigner.controller.SignPanelController">
-      <Label layoutX="14.0" layoutY="14.0" text="Create signature" />
+      <Label layoutX="14.0" layoutY="14.0" text="%sp.title" />
       <TextArea fx:id="textAreaSignature" layoutX="14.0" layoutY="78.0" styleClass="textAreaSign" />
       <ComboBox fx:id="comboBoxFontName" layoutX="14.0" layoutY="43.0" styleClass="comboBoxFontName" />
       <Spinner fx:id="spinnerFontSize" editable="true" layoutX="208.0" layoutY="43.0" styleClass="spinnerFontSize" />
       <ColorPicker fx:id="colorPickerTextColor" layoutX="272.0" layoutY="43.0" styleClass="cpTextColor" />
 
-      <Button fx:id="buttonTextBold" layoutX="370.0" layoutY="43.0" onAction="#handleButtonTextBold" styleClass="buttonsTextFormat, bBold" text="B" />
-      <Button fx:id="buttonTextItalic" layoutX="397.0" layoutY="43.0" onAction="#handleButtonTextItalic" styleClass="buttonsTextFormat, bItalic" text="I" />
-      <Button fx:id="buttonTextUnderline" layoutX="424.0" layoutY="43.0" onAction="#handleButtonTextUnderline" styleClass="buttonsTextFormat, bUnderline" text="U" />
+      <Button fx:id="buttonTextBold" layoutX="370.0" layoutY="43.0" onAction="#handleButtonTextBold" styleClass="btnTextFormat, bBold" text="%ts.bold" />
+      <Button fx:id="buttonTextItalic" layoutX="397.0" layoutY="43.0" onAction="#handleButtonTextItalic" styleClass="btnTextFormat, bItalic" text="%ts.italic" />
+      <Button fx:id="buttonTextUnderline" layoutX="424.0" layoutY="43.0" onAction="#handleButtonTextUnderline" styleClass="btnTextFormat, bUnderline" text="%ts.uLine" />
 
-      <ToggleButton fx:id="toggleButtonTextAlignLeft" layoutX="456.0" layoutY="43.0" onAction="#handleButtonTextAlignLeft" selected="true" styleClass="buttonsTextFormat" text="L">
+      <ToggleButton fx:id="toggleButtonTextAlignLeft" layoutX="456.0" layoutY="43.0" onAction="#handleButtonTextAlignLeft" selected="true" styleClass="btnTextFormat, btnTAlignLeft">
       <toggleGroup>
          <ToggleGroup fx:id="tgTextAlignment" />
       </toggleGroup>
       </ToggleButton>
-      <ToggleButton fx:id="toggleButtonTextAlignCenter" layoutX="482.0" layoutY="43.0" onAction="#handleButtonTextAlignCenter" styleClass="buttonsTextFormat" text="C" toggleGroup="$tgTextAlignment" />
-      <ToggleButton fx:id="toggleButtonTextAlignRight" layoutX="508.0" layoutY="43.0" onAction="#handleButtonTextAlignRight" styleClass="buttonsTextFormat" text="R" toggleGroup="$tgTextAlignment" />
+      <ToggleButton fx:id="toggleButtonTextAlignCenter" layoutX="482.0" layoutY="43.0" onAction="#handleButtonTextAlignCenter" styleClass="btnTextFormat, btnTAlignCenter" toggleGroup="$tgTextAlignment" />
+      <ToggleButton fx:id="toggleButtonTextAlignRight" layoutX="508.0" layoutY="43.0" onAction="#handleButtonTextAlignRight" styleClass="btnTextFormat, btnTAlignRight" toggleGroup="$tgTextAlignment" />
 
-      <Label layoutX="14.0" layoutY="142.0" text="Type signature" />
+      <Label layoutX="14.0" layoutY="142.0" text="%type.title" />
 
-      <RadioButton fx:id="radioButtonSSL" layoutX="14.0" layoutY="174.0" selected="true" text="Solid Signature Line">
+      <RadioButton fx:id="radioButtonSSL" layoutX="14.0" layoutY="174.0" selected="true" text="%type.SSL">
       <toggleGroup>
          <ToggleGroup fx:id="tgTypeSign" />
       </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="radioButtonBSL" layoutX="14.0" layoutY="198.0" text="Blur Signature Line" toggleGroup="$tgTypeSign" />
-      <RadioButton fx:id="radioButtonDOP" layoutX="14.0" layoutY="222.0" text="Directly on photo" toggleGroup="$tgTypeSign" />
+      <RadioButton fx:id="radioButtonBSL" layoutX="14.0" layoutY="198.0" text="%type.BSL" toggleGroup="$tgTypeSign" />
+      <RadioButton fx:id="radioButtonDOP" layoutX="14.0" layoutY="222.0" text="%type.DOP" toggleGroup="$tgTypeSign" />
 
       <ColorPicker fx:id="colorPickerSignBgColor" layoutX="187.0" layoutY="168.0" styleClass="cpSignBackgroundColor" />
       <Spinner fx:id="spinnerSignLineHeight" editable="true" layoutX="455.0" layoutY="167.0" styleClass="spinnerSignLineHeight" />
-      <Label layoutX="383.0" layoutY="171.0" text="Line Height" />
-      <Button fx:id="buttonPreview" layoutX="475.0" layoutY="228.0" onAction="#handleButtonPreview" styleClass="buttonPreview" text="Preview" />
+      <Label layoutX="383.0" layoutY="171.0" text="%label.lh" />
+      <Button fx:id="buttonPreview" layoutX="475.0" layoutY="228.0" onAction="#handleButtonPreview" styleClass="btnPreview" text="%btn.preview" />
 
 </AnchorPane>

@@ -29,15 +29,16 @@ public class MainApp extends Application {
     private Stage spStage = new Stage(StageStyle.TRANSPARENT);
 
     public static final String RESOURCE_PATH = "imageSigner.resources.";
-    private ResourceBundle res = ResourceBundle.getBundle(RESOURCE_PATH + "mainApp_en", Locale.ENGLISH);
-
+    private ResourceBundle rbMain = ResourceBundle.getBundle(RESOURCE_PATH + "mainWindow", Locale.ENGLISH);
+    private ResourceBundle rbSFW = ResourceBundle.getBundle(RESOURCE_PATH + "selectFilesWindow", Locale.ENGLISH);
+    private ResourceBundle rbSPW = ResourceBundle.getBundle(RESOURCE_PATH + "signPanel", Locale.ENGLISH);
     @Override
     public void start(Stage primaryStage) {
 
         Locale.setDefault(Locale.ENGLISH);
 
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle(res.getString("window.title"));
+        this.primaryStage.setTitle(rbMain.getString("window.title"));
 
         //Передача экземпляра mainApp для диалогов выбора файла
         FileItemsStorage.getInstance().setMainApp(this);
@@ -54,6 +55,7 @@ public class MainApp extends Application {
     private void initMainWindow() {
         try {
             FXMLLoader loader = new FXMLLoader();
+            loader.setResources(rbMain);
             loader.setLocation(MainApp.class.getResource("view/MWindowView.fxml"));
             BorderPane mWindow = loader.load();
 
@@ -78,10 +80,10 @@ public class MainApp extends Application {
 
             try {
                 FXMLLoader loader = new FXMLLoader();
+                loader.setResources(rbSFW);
                 loader.setLocation(MainApp.class.getResource("view/SelectFilesWindowView.fxml"));
                 BorderPane filesWindow = loader.load();
 
-                sfStage.setTitle(res.getString("window.fl.title"));
                 sfStage.setResizable(false);
 
                 Scene scene = new Scene(filesWindow);
@@ -102,7 +104,6 @@ public class MainApp extends Application {
         }
     }
 
-
     //инициализация панели инструментов
     public void showSignPanel() {
 
@@ -113,6 +114,7 @@ public class MainApp extends Application {
 
             try {
                 FXMLLoader loader = new FXMLLoader();
+                loader.setResources(rbSPW);
                 loader.setLocation(MainApp.class.getResource("view/SignPanelView.fxml"));
                 AnchorPane signPanel = loader.load();
 

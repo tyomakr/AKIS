@@ -37,8 +37,17 @@
     -fx-font-size: 12;
 }
 
-.sfButtonsArrows {
+.sfButtonsArrowUp, .sfButtonsArrowDown {
     -fx-pref-width: 40px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+.sfButtonsArrowUp {
+    -fx-background-image: url("../images/arrow-up.png");
+}
+.sfButtonsArrowDown {
+    -fx-background-image: url("../images/arrow-down.png");
 }
 
 .sfLabelQty {

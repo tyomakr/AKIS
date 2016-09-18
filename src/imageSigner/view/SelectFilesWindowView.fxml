@@ -6,21 +6,21 @@
 <BorderPane fx:id="bp" stylesheets="@css/SelectFilesWindow.css" styleClass="sfWindow" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="imageSigner.controller.SelectFilesWindowController">
    <top>
       <AnchorPane styleClass="sfAnchorPaneTop">
-         <Button fx:id="buttonAddDirSub" layoutX="13.0" layoutY="13.0" onAction="#handleButtonAddFolderWithSubDirs" styleClass="sfButtons" text="+ DIR &amp; sub" />
-         <Button fx:id="buttonAddDir" layoutX="104.0" layoutY="13.0" onAction="#handleButtonAddFolder" styleClass="sfButtons" text="+ DIR" />
-         <Button fx:id="buttonAddFile" layoutX="195.0" layoutY="13.0" onAction="#handleButtonAddFile" styleClass="sfButtons" text="+ FILE" />
-         <Button fx:id="buttonRemoveFile" layoutX="286.0" layoutY="13.0" onAction="#handleButtonRemoveFile" styleClass="sfButtons" text="- FILE" />
-         <Button fx:id="buttonClearAll" layoutX="498.0" layoutY="13.0" onAction="#handleButtonClearAll" styleClass="sfButtons" text="Очистить" />
-         <Button fx:id="buttonMoveFileUP" layoutX="393.0" layoutY="13.0" onAction="#handleButtonMoveFileUp" styleClass="sfButtons, sfButtonsArrows" text="▲" />
-         <Button fx:id="buttonMoveFileDOWN" layoutX="434.0" layoutY="13.0" onAction="#handleButtonMoveFileDown" styleClass="sfButtons, sfButtonsArrows" text="▼" />
+         <Button fx:id="buttonAddDirSub" layoutX="13.0" layoutY="13.0" onAction="#handleButtonAddFolderWithSubDirs" styleClass="sfButtons" text="%btn.dir.sDir" />
+         <Button fx:id="buttonAddDir" layoutX="104.0" layoutY="13.0" onAction="#handleButtonAddFolder" styleClass="sfButtons" text="%btn.dir" />
+         <Button fx:id="buttonAddFile" layoutX="195.0" layoutY="13.0" onAction="#handleButtonAddFile" styleClass="sfButtons" text="%btn.addFile" />
+         <Button fx:id="buttonRemoveFile" layoutX="286.0" layoutY="13.0" onAction="#handleButtonRemoveFile" styleClass="sfButtons" text="%btn.remFile" />
+         <Button fx:id="buttonClearAll" layoutX="498.0" layoutY="13.0" onAction="#handleButtonClearAll" styleClass="sfButtons" text="%btn.clear" />
+         <Button fx:id="buttonMoveFileUP" layoutX="393.0" layoutY="13.0" onAction="#handleButtonMoveFileUp" styleClass="sfButtons, sfButtonsArrowUp" />
+         <Button fx:id="buttonMoveFileDOWN" layoutX="434.0" layoutY="13.0" onAction="#handleButtonMoveFileDown" styleClass="sfButtons, sfButtonsArrowDown"/>
       </AnchorPane>
    </top>
    <center>
       <AnchorPane styleClass="sfAnchorPaneTable">
          <TableView fx:id="tableView" layoutX="7.0" styleClass="sfTableView">
             <columns>
-               <TableColumn fx:id="tableColumnFileName" editable="false" styleClass="sfTableColumns" text="Имя файла"/>
-               <TableColumn fx:id="tableColumnFilePath" editable="false" styleClass="sfTableColumns" text="Путь к файлу"/>
+               <TableColumn fx:id="tableColumnFileName" editable="false" styleClass="sfTableColumns" text="%column.fn"/>
+               <TableColumn fx:id="tableColumnFilePath" editable="false" styleClass="sfTableColumns" text="%column.fp"/>
             </columns>
             <columnResizePolicy>
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -30,7 +30,7 @@
    </center>
    <bottom>
       <AnchorPane styleClass="sfAnchorPaneBottom">
-         <Label layoutX="14.0" layoutY="6.0" text="Итого выбрано файлов: " />
+         <Label layoutX="14.0" layoutY="6.0" text="%label.total" />
          <Label fx:id="labelQuantityFiles" layoutX="158.0" layoutY="6.0" styleClass="sfLabelQty"/>
       </AnchorPane>
    </bottom>

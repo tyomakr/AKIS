@@ -61,10 +61,11 @@
 .buttonPrev, .buttonNext {
     -fx-pref-width: 25px;
     -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
 }
 
-.buttonPrev {  -fx-background-image: url("../images/arrow-left-b.png");  }
-.buttonNext {  -fx-background-image: url("../images/arrow-right-b.png"); }
+.buttonPrev {  -fx-background-image: url("../images/arrow-prev.png");  }
+.buttonNext {  -fx-background-image: url("../images/arrow-next.png"); }
 
 .buttonShowSignPanel {  -fx-pref-width: 130px;  }
 

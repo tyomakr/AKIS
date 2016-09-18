@@ -2,6 +2,8 @@ package imageSigner.containers;
 
 import imageSigner.MainApp;
 import imageSigner.enums.textAlignSelector;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -24,7 +26,6 @@ import java.util.ResourceBundle;
 
 import static imageSigner.MainApp.RESOURCE_PATH;
 
-
 public class ImageContainer extends StackPane {
 
     private MainApp mainApp;
@@ -34,10 +35,10 @@ public class ImageContainer extends StackPane {
 
     private Canvas canvas = new Canvas(0, 0);
     private GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-
     private Text signText;
 
     private ResourceBundle res = ResourceBundle.getBundle(RESOURCE_PATH + "common", Locale.ENGLISH);
+    private DoubleProperty icScale = new SimpleDoubleProperty(1.0);
 
     //constructor
     public ImageContainer (String pathUrl) {
@@ -57,6 +58,10 @@ public class ImageContainer extends StackPane {
                     imageView.fitWidthProperty().bind(sp.widthProperty());
                     imageView.fitHeightProperty().bind(sp.heightProperty());
                 }
+
+                scaleXProperty().bind(icScale);
+                scaleYProperty().bind(icScale);
+
                 getChildren().add(imageView);
             }
         });
@@ -87,6 +92,7 @@ public class ImageContainer extends StackPane {
     // наложение подписи на однотонном фоне
     public void setSolidLineSignature() {
 
+        initCanvas();
         double signLineSize = mainApp.getSpController().spinnerSignLineHeight.getValue();               //получаем значение высоты линии подписи
 
         initCanvas();
@@ -99,6 +105,7 @@ public class ImageContainer extends StackPane {
     // наложение подписи на замутненном фоне
     public void setBlurLineSignature() {
 
+        initCanvas();
         double signLineSize = mainApp.getSpController().spinnerSignLineHeight.getValue();               //получаем значение высоты линии подписи
 
         canvas.setWidth(image.getWidth());
@@ -106,16 +113,16 @@ public class ImageContainer extends StackPane {
         WritableImage writableImage = new WritableImage((int)canvas.getWidth(), (int)canvas.getHeight());
 
         drawMirroringSignatureLine(writableImage, image, signLineSize);     //зеркалим фон подписи
-        image = applyGaussianBlurSignLine(writableImage, signLineSize);     //применяем блюр
-        imageView.setImage(image);
+        Image bImage = applyGaussianBlurSignLine(writableImage, signLineSize);     //применяем блюр
+        imageView.setImage(bImage);
+        graphicsContext.drawImage(bImage, 0, 0);
+        paint();
 
-        initCanvas();
         processingSignData(signLineSize);
 
         mainApp.getMvController().labelProcessStatus.setText(res.getString("complete"));
 
     }
-
 
     // наложение подписи напрямую на фото (без подложки для подписи)
     public void setOnPhotoDirectlySignature() {
@@ -262,6 +269,7 @@ public class ImageContainer extends StackPane {
         return signText.getLayoutBounds().getWidth();
     }
 
+
     //SETTERS AND GETTERS
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
@@ -272,5 +280,15 @@ public class ImageContainer extends StackPane {
         return imageView;
     }
 
-
+    public double getScale() {
+        return icScale.get();
+    }
+    public void setScale( double scale) {
+        icScale.set(scale);
+    }
+    public void setPivot( double x, double y) {
+        setTranslateX(getTranslateX()-x);
+        setTranslateY(getTranslateY()-y);
+    }
 }
+
